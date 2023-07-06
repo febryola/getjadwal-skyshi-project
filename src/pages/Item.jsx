@@ -29,7 +29,8 @@ import { destroy, store, update } from '../server api/schedule';
 
 export default function Item() {
 	let params = useParams();
-	let { id } = params;
+	let { day } = params;
+	console.log(day);
 	const [todos, setTodos] = React.useState([]);
 	const [changeTitle, setChangeTitle] = React.useState(false);
 	const [sortList, setSortList] = React.useState(initialSortList);
@@ -55,12 +56,20 @@ export default function Item() {
 	let navigate = useNavigate();
 
 	const handleChangeTitle = (e) => {
-		setSchedule((schedule) => ({ ...schedule, day: e.target.value }));
+		setSchedule((schedule) => ({ ...schedule, title: e.target.value }));
 	};
+
+	const dayNames = {
+		monday: 'Senin',
+		tuesday: 'Selasa',
+		wednesday: 'Rabu',
+		thursday: 'Kamis',
+		friday: 'Jumat',
+		};
 
 	const handleUpdateschedule = async () => {
 		try {
-			await updateschedule(id, schedule.day);
+			await updateschedule(day, schedule.data[0].day);
 			setChangeTitle(false);
 		} catch (error) {
 			console.log(error);
@@ -162,17 +171,17 @@ export default function Item() {
 
 	const getDetailSchedule = React.useCallback(async () => {
 		try {
-			const { data } = await getDetail('john@email.com',schedule.day);
+			const { data } = await getDetail('john@email.com',day);
+
 			const { todo_items, ...schedule } = data;
-			setSchedule({ ...schedule });
+			setSchedule({ ...schedule});
 			setTodos([...todo_items]);
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
 			console.log(error);
 		}
-	}, [id]);
-
+	}, [day]);
 	React.useEffect(() => {
 		getDetailSchedule();
 	}, [getDetailSchedule]);
@@ -194,36 +203,13 @@ export default function Item() {
 						cursor="pointer"
 						onClick={() => navigate(-1)}
 					/>
-					{changeTitle ? (
-						<Input
-							autoFocus
-							variant="flushed"
-							width="md"
-							fontSize="36px"
-							fontWeight="bold"
-							lineHeight="54px"
-							focusBorderColor="#111111"
-							value={schedule.day}
-							onChange={(e) => handleChangeTitle(e)}
-							onBlur={handleUpdateschedule}
-						/>
-					) : (
 						<Text
 							data-cy="detail-title"
 							textStyle="h1"
 							onClick={() => setChangeTitle(true)}
 						>
-							{schedule.day}
+							{dayNames[day]}
 						</Text>
-					)}
-					<Image
-						data-cy="todo-title-edit-button"
-						src="/static/icons/todo-title-edit-button.svg"
-						alt="todo-title-edit-button"
-						width="24px"
-						cursor="pointer"
-						onClick={() => setChangeTitle(true)}
-					/>
 				</Box>
 				<Box display="flex" gap="18px">
 					<Menu>
@@ -297,7 +283,7 @@ export default function Item() {
 						todos.map((data, i) => (
 							<TodoItem
 								dataCy={`todo-item-${i}`}
-								key={data.id}
+								key={data.day}
 								handleCheck={handleCheck}
 								{...data}
 								handleDelete={handleClickDelete}

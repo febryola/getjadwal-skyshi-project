@@ -22,7 +22,7 @@ function App() {
 						}
 					/>
 					<Route
-						path="/schedule/:id"
+						path="/schedule/:day"
 						element={
 							<React.Suspense fallback={<>Loading...</>}>
 								<Item />

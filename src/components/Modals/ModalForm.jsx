@@ -22,7 +22,6 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { priorityList as dataPriority } from '../../data/data-priority';
 import { IconArrowDown } from '../Icons/Icons';
 
 export function ModalForm({ isOpen, onClose, onAction, data, type }) {
@@ -36,7 +35,6 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 	} = useForm({
 		defaultValues: {
 			title: '',
-			priority: '',
 		},
 	});
 
@@ -48,7 +46,6 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 	React.useEffect(() => {
 		if (data.id) {
 			setValue('title', data.title);
-			setValue('priority', data.priority);
 		} else {
 			reset();
 		}
@@ -60,7 +57,7 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 			<ModalContent
 				data-cy="modal-add"
 				minW="830px"
-				minH="403px"
+				minH="303px"
 				borderRadius="12px"
 			>
 				<form onSubmit={handleSubmit(onSubmit)}>
@@ -70,10 +67,10 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 						borderBottom={`1px solid #E5E5E5`}
 						p={`30px 24px 19px`}
 					>
-						{type === 'edit' ? 'Edit Item' : 'Tambah List Item'}
+						{type === 'edit' ? 'Edit Item' : 'Tambah Mata Kuliah'}
 					</ModalHeader>
 					<ModalCloseButton
-						data-cy="modal-add-close-button"
+						data-cy="close-modal"
 						top="25px"
 						right="25px"
 					/>
@@ -86,12 +83,12 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 								fontSize={'12px'}
 								fontWeight={'semibold'}
 							>
-								NAMA LIST ITEM
+								Mata Kuliah
 							</FormLabel>
 							<Input
-								data-cy="modal-add-name-input"
+								data-cy="form-matkul"
 								id="title"
-								placeholder="Tambahkan nama list item"
+								placeholder="Masukkan mata kuliah"
 								{...register('title', {
 									required: true,
 								})}
@@ -103,128 +100,6 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 								borderRadius={'6px'}
 							/>
 						</FormControl>
-						<FormControl width={'205px'}>
-							<FormLabel
-								data-cy="modal-add-priority-title"
-								htmlFor="priority"
-								fontSize={'12px'}
-								fontWeight={'semibold'}
-							>
-								PRIORITY
-							</FormLabel>
-							<Controller
-								name="priority"
-								control={control}
-								render={({
-									field: { onChange, name, value },
-								}) => (
-									<Menu>
-										<MenuButton
-											data-cy="modal-add-priority-dropdown"
-											as={Button}
-											rightIcon={<IconArrowDown />}
-											id="priority"
-											bg="white"
-											width="224px"
-											height="52px"
-											p={`14px 17px`}
-											fontSize={'16px'}
-											fontWeight="normal"
-											border={`1px solid #E5E5E5`}
-											borderRadius={'6px'}
-											gap={'65px'}
-											_expanded={{
-												bg: 'white',
-												borderColor: 'prime.900',
-											}}
-										>
-											{value === '' ? (
-												'Pilih priority'
-											) : (
-												<Box
-													display={'inline-flex'}
-													alignItems={'center'}
-													gap={'19px'}
-												>
-													<Text
-														as="span"
-														display="inline-block"
-														width="14px"
-														height="14px"
-														borderRadius="14px"
-														backgroundColor={
-															dataPriority.find(
-																(priority) =>
-																	priority.key ===
-																	value
-															).color
-														}
-													></Text>
-													<Text
-														fontSize={'16px'}
-														fontWeight={'normal'}
-													>
-														{
-															dataPriority.find(
-																(priority) =>
-																	priority.key ===
-																	value
-															).label
-														}
-													</Text>
-												</Box>
-											)}
-										</MenuButton>
-										<MenuList>
-											{dataPriority.map((priority, i) => (
-												<MenuItem
-													data-cy="modal-add-priority-item"
-													key={i}
-													display="flex"
-													justifyContent="space-between"
-													alignItems="center"
-													px="17px"
-													py="14px"
-													onClick={(_) => {
-														onChange(priority.key);
-													}}
-													name={name}
-													value={value}
-												>
-													<Box
-														display="flex"
-														alignItems="center"
-														gap="19px"
-													>
-														<Text
-															as="span"
-															display="inline-block"
-															width="14px"
-															height="14px"
-															borderRadius="14px"
-															backgroundColor={
-																priority.color
-															}
-														></Text>
-														<Text
-															fontSize={'16px'}
-															fontWeight={
-																'normal'
-															}
-														>
-															{priority.label}
-														</Text>
-													</Box>
-													{priority.key === value && (
-														<Image src="/static/icons/checked.svg" />
-													)}
-												</MenuItem>
-											))}
-										</MenuList>
-									</Menu>
-								)}
-							/>
-						</FormControl>
 					</ModalBody>
 
 					<ModalFooter
@@ -232,10 +107,10 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 						p={`15px 24px 19px`}
 					>
 						<Button
-							data-cy="modal-add-save-button"
+							data-cy="btn-submit"
 							minW="150px"
 							height="54px"
-							bg={'prime.900'}
+							bg={'prime.700'}
 							color="white"
 							borderRadius="45px"
 							fontSize="18px"
@@ -244,7 +119,7 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 							py="13.5px"
 							disabled={
 								type === 'add' &&
-								(!dirtyFields.title || !dirtyFields.priority)
+								(!dirtyFields.title)
 							}
 							type="submit"
 						>

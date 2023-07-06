@@ -1,12 +1,12 @@
 import { Box, Checkbox, Image, Text } from '@chakra-ui/react';
 import React from 'react';
-import { priorityList } from '../data/data-priority';
+import { dayList } from '../data/data-day';
 
 export default function TodoItem({
 	dataCy,
 	id: idTodo,
 	is_active,
-	priority,
+	day,
 	title,
 	activity_group_id,
 	handleCheck,
@@ -36,14 +36,14 @@ export default function TodoItem({
 					onChange={(e) => handleCheck(idTodo)}
 				/>
 				<Text
-					data-cy="todo-item-priority-indicator"
+					data-cy="todo-item-day-indicator"
 					as="span"
 					display="inline-block"
 					width="9px"
 					height="9px"
 					borderRadius="9px"
 					backgroundColor={
-						priorityList.find((data) => data.key === priority).color
+						dayList.find((data) => data.key === day).color
 					}
 				></Text>
 				<Text
@@ -75,7 +75,7 @@ export default function TodoItem({
 						activity_group_id,
 						id: idTodo,
 						is_active,
-						priority,
+						day,
 						title,
 					})
 				}
