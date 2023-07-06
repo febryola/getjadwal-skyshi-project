@@ -5,6 +5,7 @@ import Header from './components/Header';
 
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 const Item = React.lazy(() => import('./pages/Item'));
+const Checkin = React.lazy(() => import('./pages/Checkin'));
 
 function App() {
 	
@@ -13,8 +14,16 @@ function App() {
 			<Header title="GetJadwal" />
 			<Container maxW="5xl">
 				<Routes>
-					<Route
+					<Route 
 						path="/"
+						element={
+							<React.Suspense fallback={<>Loading...</>}>
+								<Checkin />
+							</React.Suspense>
+						}
+					/>
+					<Route
+						path="/dashboard"
 						element={
 							<React.Suspense fallback={<>Loading...</>}>
 								<Dashboard />
