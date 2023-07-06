@@ -1,14 +1,12 @@
 import { Box, Checkbox, Image, Text } from '@chakra-ui/react';
 import React from 'react';
-import { dayList } from '../data/data-day';
 
 export default function TodoItem({
 	dataCy,
 	id: idTodo,
 	is_active,
-	day,
 	title,
-	activity_group_id,
+	schedule_group_id,
 	handleCheck,
 	handleDelete,
 	handleEdit,
@@ -27,25 +25,6 @@ export default function TodoItem({
 			mb="10px"
 		>
 			<Box display="flex" gap="16px" alignItems="center">
-				<Checkbox
-					data-cy="todo-item-checkbox"
-					width="20px"
-					height="20px"
-					colorScheme="prime"
-					isChecked={!is_active}
-					onChange={(e) => handleCheck(idTodo)}
-				/>
-				<Text
-					data-cy="todo-item-day-indicator"
-					as="span"
-					display="inline-block"
-					width="9px"
-					height="9px"
-					borderRadius="9px"
-					backgroundColor={
-						dayList.find((data) => data.key === day).color
-					}
-				></Text>
 				<Text
 					data-cy="todo-item-title"
 					textStyle="h3"
@@ -72,10 +51,8 @@ export default function TodoItem({
 				cursor="pointer"
 				onClick={() =>
 					handleDelete({
-						activity_group_id,
+						schedule_group_id,
 						id: idTodo,
-						is_active,
-						day,
 						title,
 					})
 				}
