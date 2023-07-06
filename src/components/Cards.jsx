@@ -6,7 +6,7 @@ export default function Cards({ children, dataCy, handleClick = () => {} }) {
 		<Box
 			data-cy={dataCy}
 			maxW="235px"
-			height="234px"
+			height="150px"
 			display="flex"
 			flexDirection="column"
 			justifyContent="space-between"

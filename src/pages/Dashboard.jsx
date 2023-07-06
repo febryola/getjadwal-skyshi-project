@@ -19,8 +19,7 @@ import { ModalDelete } from '../components/Modals/Modals';
 import { destroy, getAll, store } from '../server api/schedule';
 
 export default function Dashboard() {
-	const [dataActivity, setDataActivity] = React.useState([]);
-	const [dataSelected, setDataSelected] = React.useState({});
+	const [dataSchedule, setDataSchedule] = React.useState([]);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [loading, setLoading] = React.useState(true);
 	const {
@@ -30,34 +29,9 @@ export default function Dashboard() {
 	} = useDisclosure();
 	let navigate = useNavigate();
 
-	const handleClickDelete = (e, data) => {
-		e.stopPropagation();
-		setDataSelected(data);
-		onOpen();
-	};
-
-	const handleDelete = async () => {
-		onClose();
-		try {
-			await destroy(dataSelected.id);
-			await getActivities();
-			onOpenAlert();
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	const dataActivityAwal = [
-		{ id: 1, title: "Senin", created_at: "2023-07-01" },
-		{ id: 2, title: "Selasa", created_at: "2023-07-02" },
-		{ id: 3, title: "Rabu", created_at: "2023-07-03" },
-		{ id: 4, title: "Kamis", created_at: "2023-07-04" },
-		{ id: 5, title: "Jumat", created_at: "2023-07-05" }
-		];
-
 	const handleAdd = async () => {
 		try {
-			await store('New Activity');
+			await store('john@email.com');
 			await getActivities();
 		} catch (error) {
 			console.log(error);
@@ -65,14 +39,14 @@ export default function Dashboard() {
 	};
 
 	const getActivities = React.useCallback(async () => {
-		try {
-			const { data } = await getAll();
-			setDataActivity([...data.data]);
-			setLoading(false);
-		} catch (error) {
-			setLoading(false);
-			console.log(error);
-		}
+	try {
+		const { data } = await getAll("john@email.com");
+		setDataSchedule(data.data);
+		setLoading(false);
+	} catch (error) {
+		setLoading(false);
+		console.log(error);
+	}
 	}, []);
 
 	React.useEffect(() => {
@@ -113,109 +87,59 @@ export default function Dashboard() {
 				</Box>
 			) : (
 				<Grid
-						templateColumns={
-							dataActivityAwal.length > 0 ? `repeat(5, 1fr)` : '1fr'
-						}
-						rowGap="26px"
-						columnGap="20px"
-						marginBottom="50px"
+					templateColumns={
+						Object.keys(dataSchedule).length > 0 ? `repeat(5, 1fr)` : '1fr'
+					}
+					rowGap="26px"
+					columnGap="20px"
+					marginBottom="50px"
+					>
+					{Object.keys(dataSchedule).map((day) => (
+						<Cards
+						dataCy={`card-day-${day}`}
+						handleClick={() => navigate(`/schedule/${dataSchedule[day][0].id}`)}
+						key={day}
 						>
-						{dataActivityAwal.length > 0 ? (
-							dataActivityAwal.map((data, i) => (
-							<Cards
-								dataCy={`activity-item-${data.title.toLowerCase()}`}
-								handleClick={() => navigate(`/item-list/${data.id}`)}
+						<Text data-cy={`card-title-${day}`} textStyle="h3">
+							{day.charAt(0).toUpperCase() + day.slice(1)}
+						</Text>
+						<Box
+							display="inline-flex"
+							justifyContent="space-between"
+							alignItems="center"
+							bg="white"
+						>
+							{dataSchedule[day].length > 0 ? (
+							dataSchedule[day].map((data) => (
+								<Text
+								data-cy={`card-desc-${data.title}`}
 								key={data.id}
-							>
-								<Text data-cy={`activity-item-title-${data.title.toLowerCase()}`} textStyle="h3">
+								as="span"
+								fontSize="14px"
+								fontWeight="medium"
+								color="#888888"
+								cursor="text"
+								>
 								{data.title}
 								</Text>
-								<Box
-								display="inline-flex"
-								justifyContent="space-between"
-								alignItems="center"
-								bg="white"
-								>
-								<Text
-									data-cy={`activity-item-date-${data.title.toLowerCase()}`}
-									as="span"
-									fontSize="14px"
-									fontWeight="medium"
-									color="#888888"
-									cursor="text"
-								>
-									{`
-									${new Date(data.created_at).toLocaleString('id', {
-									day: '2-digit',
-									})} ${new Date(data.created_at).toLocaleString('id', {
-									month: 'long',
-									})} ${new Date(data.created_at).toLocaleString('id', {
-									year: 'numeric',
-									})}
-								`}
-								</Text>
-								<Image
-									data-cy={`activity-item-delete-button-${data.title.toLowerCase()}`}
-									src="/static/icons/delete.svg"
-									alt="title"
-									cursor="pointer"
-									onClick={(e) => handleClickDelete(e, data)}
-								/>
-								</Box>
-							</Cards>
 							))
-						) : (
-							<Box
-							data-cy="activity-empty-state"
-							display="flex"
-							justifyContent="center"
+							) : (
+							<Text
+								data-cy={`card-desc-${day}`}
+								as="span"
+								fontSize="14px"
+								fontWeight="medium"
+								color="#888888"
+								cursor="text"
 							>
-							<Image
-								src="/assets/activity-empty-state.png"
-								alt="activity-empty-state"
-								onClick={handleAdd}
-							/>
-							</Box>
-						)}
-						</Grid>
+								Belum ada mata kuliah
+							</Text>
+							)}
+						</Box>
+						</Cards>
+					))}
+					</Grid>
 			)}
-			<ModalDelete
-				isOpen={isOpen}
-				onClose={onClose}
-				onAction={handleDelete}
-				content={`Apakah Anda yakin menghapus activity<br />
-				<strong>“${dataSelected?.title}”?</strong>`}
-			/>
-			<Modal
-				data-cy="modal-information"
-				isOpen={isOpenAlert}
-				onClose={onCloseAlert}
-				isCentered
-			>
-				<ModalOverlay />
-				<ModalContent
-					data-cy="modal-information"
-					minH={'58px'}
-					minW="490px"
-				>
-					<ModalBody display="flex" alignItems={'center'}>
-						<Image
-							data-cy="modal-information-icon"
-							src="/static/icons/modal-information-icon.svg"
-							alt="modal-information-icon"
-							mr="10px"
-						/>
-						<Text
-							data-cy="modal-information-title"
-							fontSize="14px"
-							fontWeight="medium"
-							color="#111111"
-						>
-							Activity berhasil dihapus
-						</Text>
-					</ModalBody>
-				</ModalContent>
-			</Modal>
 		</>
 	);
 }

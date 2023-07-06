@@ -1,5 +1,4 @@
 import axios from './axios.instance';
-
 export async function getAll(email) {
     return await axios.get(`/schedule?email=${email}`);
 }

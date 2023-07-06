@@ -23,7 +23,7 @@ import TodoItem from '../components/TodoItem';
 import { sortList as initialSortList } from '../data/data-sorting';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getDetail, update as updateActivity } from '../server api/schedule';
+import { getDetail, update as updateschedule } from '../server api/schedule';
 import { destroy, store, update } from '../server api/schedule';
 
 
@@ -34,7 +34,7 @@ export default function Item() {
 	const [changeTitle, setChangeTitle] = React.useState(false);
 	const [sortList, setSortList] = React.useState(initialSortList);
 	const [loading, setLoading] = React.useState(true);
-	const [activity, setActivity] = React.useState({});
+	const [schedule, setSchedule] = React.useState({});
 	const [todoSelected, setTodoSelected] = React.useState({});
 	const {
 		isOpen: isOpenAlert,
@@ -55,12 +55,12 @@ export default function Item() {
 	let navigate = useNavigate();
 
 	const handleChangeTitle = (e) => {
-		setActivity((activity) => ({ ...activity, title: e.target.value }));
+		setSchedule((schedule) => ({ ...schedule, title: e.target.value }));
 	};
 
-	const handleUpdateActivity = async () => {
+	const handleUpdateschedule = async () => {
 		try {
-			await updateActivity(id, activity.title);
+			await updateschedule(id, schedule.title);
 			setChangeTitle(false);
 		} catch (error) {
 			console.log(error);
@@ -76,7 +76,7 @@ export default function Item() {
 		onCloseModalDelete();
 		try {
 			await destroy(todoSelected.id);
-			await getDetailActivity();
+			await getDetailSchedule();
 			onOpenAlert();
 		} catch (error) {
 			console.log(error);
@@ -152,19 +152,19 @@ export default function Item() {
 			else
 				await store({
 					...dataForm,
-					activity_group_id: id,
+					schedule_group_id: id,
 				});
-			await getDetailActivity();
+			await getDetailSchedule();
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	const getDetailActivity = React.useCallback(async () => {
+	const getDetailSchedule = React.useCallback(async () => {
 		try {
-			const { data } = await getDetail(id);
-			const { todo_items, ...activity } = data;
-			setActivity({ ...activity });
+			const { data } = await getDetail('john@email.com','monday');
+			const { todo_items, ...schedule } = data;
+			setSchedule({ ...schedule });
 			setTodos([...todo_items]);
 			setLoading(false);
 		} catch (error) {
@@ -174,8 +174,8 @@ export default function Item() {
 	}, [id]);
 
 	React.useEffect(() => {
-		getDetailActivity();
-	}, [getDetailActivity]);
+		getDetailSchedule();
+	}, [getDetailSchedule]);
 
 	return (
 		<>
@@ -187,7 +187,7 @@ export default function Item() {
 			>
 				<Box display="flex" gap="19px" alignItems="center">
 					<Image
-						data-cy="todo-back-button"
+						data-cy="btn-back"
 						src="/static/icons/todo-back-button.svg"
 						alt="todo-back-button"
 						width="24px"
@@ -203,17 +203,17 @@ export default function Item() {
 							fontWeight="bold"
 							lineHeight="54px"
 							focusBorderColor="#111111"
-							value={activity.title}
+							value={schedule.title}
 							onChange={(e) => handleChangeTitle(e)}
-							onBlur={handleUpdateActivity}
+							onBlur={handleUpdateschedule}
 						/>
 					) : (
 						<Text
-							data-cy="todo-title"
+							data-cy="detail-title"
 							textStyle="h1"
 							onClick={() => setChangeTitle(true)}
 						>
-							{activity.title}
+							{schedule.title}
 						</Text>
 					)}
 					<Image
@@ -358,7 +358,7 @@ export default function Item() {
 							fontWeight="medium"
 							color="#111111"
 						>
-							Activity berhasil dihapus
+							schedule berhasil dihapus
 						</Text>
 					</ModalBody>
 				</ModalContent>
