@@ -22,7 +22,6 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { IconArrowDown } from '../Icons/Icons';
 
 export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 	const {

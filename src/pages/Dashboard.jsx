@@ -11,7 +11,7 @@ import {
 	Text,
 	useDisclosure,
 } from '@chakra-ui/react';
-import React from 'react';
+import React,{useEffect} from 'react';
 import { IconPlus } from '../components/Icons/Icons';
 import Cards from '../components/Cards';
 import { useNavigate } from 'react-router-dom';
@@ -29,6 +29,14 @@ export default function Dashboard() {
 	} = useDisclosure();
 	let navigate = useNavigate();
 
+	useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const email = urlParams.get('email');
+    console.log(email); // Nilai email dapat digunakan untuk melakukan tindakan yang diperlukan di halaman dashboard
+
+    getActivities(email); // Panggil fungsi getActivities dengan nilai email
+  }, []);
+  
 	const handleAdd = async () => {
 		try {
 			await store('john@email.com','tuesday', 'Bel');
@@ -45,9 +53,9 @@ export default function Dashboard() {
 		thursday: 'Kamis',
 		friday: 'Jumat',
 		};
-	const getActivities = React.useCallback(async () => {
+	const getActivities = React.useCallback(async (email) => {
 	try {
-		const { data } = await getAll("john@email.com");
+		const { data } = await getAll(email);
 		setDataSchedule(data.data);
 		setLoading(false);
 	} catch (error) {
@@ -83,7 +91,7 @@ export default function Dashboard() {
 					px="22px"
 					py="13.5px"
 					leftIcon={<IconPlus />}
-					handleClick={() => navigate(`/schedule`)}
+					handleclick={() => navigate(`/schedule`)}
 				>
 					Buat Jadwal Kuliah
 				</Button>
@@ -105,7 +113,7 @@ export default function Dashboard() {
 					{Object.keys(dataSchedule).map((day) => (
 						<Cards
 							data-cy={`card-day-${day}`}
-							handleClick={() => navigate(`/schedule/${day}`)}
+							handleclick={() => navigate(`/schedule/${day}`)}
 							key={day}
 							>
 							<Text data-cy={`card-title-${day}`} textStyle="h3">

@@ -4,10 +4,8 @@ import React from 'react';
 export default function TodoItem({
 	dataCy,
 	id: idTodo,
-	is_active,
 	title,
-	schedule_group_id,
-	handleCheck,
+	day,
 	handleDelete,
 	handleEdit,
 }) {
@@ -51,9 +49,9 @@ export default function TodoItem({
 				cursor="pointer"
 				onClick={() =>
 					handleDelete({
-						schedule_group_id,
 						id: idTodo,
 						title,
+						day,
 					})
 				}
 			/>

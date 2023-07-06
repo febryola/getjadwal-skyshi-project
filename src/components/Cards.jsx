@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-export default function Cards({ children, dataCy, handleClick = () => {} }) {
+export default function Cards({ children, dataCy, handleclick = () => {} }) {
 	return (
 		<Box
 			data-cy={dataCy}
@@ -16,7 +16,7 @@ export default function Cards({ children, dataCy, handleClick = () => {} }) {
 			boxShadow={`0px 6px 10px rgba(0, 0, 0, .1)`}
 			borderRadius="12px"
 			cursor="pointer"
-			onClick={handleClick}
+			onClick={handleclick}
 		>
 			{children}
 		</Box>

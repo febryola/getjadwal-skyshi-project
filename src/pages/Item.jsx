@@ -16,7 +16,7 @@ import {
 import { IconPlus, IconSort } from '../components/Icons/Icons';
 import { ModalDelete, ModalForm } from '../components/Modals/Modals';
 import TodoItem from '../components/TodoItem';
-import React from 'react';
+import React ,{useEffect} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getDetail, update as updateschedule } from '../server api/schedule';
 import { destroy, store, update } from '../server api/schedule';
@@ -45,6 +45,11 @@ export default function Item() {
 	} = useDisclosure();
 
 	let navigate = useNavigate();
+	useEffect(() => {
+	const storedEmail = localStorage.getItem('email');
+	getDetailSchedule(storedEmail); 
+	handleActionModalForm(storedEmail);
+	}, []);
 
 	const dayNames = {
 		monday: 'Senin',
@@ -85,23 +90,33 @@ export default function Item() {
 	};
 
 	const handleActionModalForm = async (dataForm) => {
-		onCloseModalForm();
-		try {
-			if (todoSelected.id) await update(todoSelected.id, dataForm);
-			else
-				await store({
-					...dataForm,
-					schedule_group_id: id,
-				});
-			await getDetailSchedule();
-		} catch (error) {
-			console.log(error);
+	onCloseModalForm();
+	try {
+		const storedEmail = localStorage.getItem('email');
+		if (!storedEmail) {
+		// Handle jika email tidak ada
+		return;
 		}
+
+		if (todoSelected.id) {
+		await update(todoSelected.id, dataForm);
+		} else {
+		await store({
+			storedEmail, // Menambahkan email dari local storage
+			day,
+		});
+		}
+
+		await getDetailSchedule();
+	} catch (error) {
+		console.log(error);
+	}
 	};
 
-	const getDetailSchedule = React.useCallback(async () => {
+
+	const getDetailSchedule = React.useCallback(async (email) => {
 		try {
-			const { data } = await getDetail('john@email.com', day);
+			const { data } = await getDetail(email, day);
 			const { todos, ...schedule } = data;
 			setSchedule({ ...schedule });
 			setTodos( ...todos); 
@@ -112,7 +127,6 @@ export default function Item() {
 		}
 		}, [day]);
 
-		console.log("hei",todos);
 	React.useEffect(() => {
 		getDetailSchedule();
 	}, [getDetailSchedule]);
