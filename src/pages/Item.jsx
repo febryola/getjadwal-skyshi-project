@@ -55,12 +55,12 @@ export default function Item() {
 	let navigate = useNavigate();
 
 	const handleChangeTitle = (e) => {
-		setSchedule((schedule) => ({ ...schedule, title: e.target.value }));
+		setSchedule((schedule) => ({ ...schedule, day: e.target.value }));
 	};
 
 	const handleUpdateschedule = async () => {
 		try {
-			await updateschedule(id, schedule.title);
+			await updateschedule(id, schedule.day);
 			setChangeTitle(false);
 		} catch (error) {
 			console.log(error);
@@ -162,7 +162,7 @@ export default function Item() {
 
 	const getDetailSchedule = React.useCallback(async () => {
 		try {
-			const { data } = await getDetail('john@email.com','monday');
+			const { data } = await getDetail('john@email.com',schedule.day);
 			const { todo_items, ...schedule } = data;
 			setSchedule({ ...schedule });
 			setTodos([...todo_items]);
@@ -203,7 +203,7 @@ export default function Item() {
 							fontWeight="bold"
 							lineHeight="54px"
 							focusBorderColor="#111111"
-							value={schedule.title}
+							value={schedule.day}
 							onChange={(e) => handleChangeTitle(e)}
 							onBlur={handleUpdateschedule}
 						/>
@@ -213,7 +213,7 @@ export default function Item() {
 							textStyle="h1"
 							onClick={() => setChangeTitle(true)}
 						>
-							{schedule.title}
+							{schedule.day}
 						</Text>
 					)}
 					<Image

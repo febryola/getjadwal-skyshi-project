@@ -31,13 +31,20 @@ export default function Dashboard() {
 
 	const handleAdd = async () => {
 		try {
-			await store('john@email.com');
+			await store('john@email.com','tuesday', 'Bel');
 			await getActivities();
 		} catch (error) {
 			console.log(error);
 		}
 	};
-
+	//waktu checkin store data berikut
+	const dayNames = {
+		monday: 'Senin',
+		tuesday: 'Selasa',
+		wednesday: 'Rabu',
+		thursday: 'Kamis',
+		friday: 'Jumat',
+		};
 	const getActivities = React.useCallback(async () => {
 	try {
 		const { data } = await getAll("john@email.com");
@@ -48,7 +55,7 @@ export default function Dashboard() {
 		console.log(error);
 	}
 	}, []);
-
+	console.log(dataSchedule["monday"]);
 	React.useEffect(() => {
 		getActivities();
 	}, [getActivities]);
@@ -76,7 +83,7 @@ export default function Dashboard() {
 					px="22px"
 					py="13.5px"
 					leftIcon={<IconPlus />}
-					onClick={handleAdd}
+					handleClick={() => navigate(`/schedule`)}
 				>
 					Buat Jadwal Kuliah
 				</Button>
@@ -93,49 +100,38 @@ export default function Dashboard() {
 					rowGap="26px"
 					columnGap="20px"
 					marginBottom="50px"
+					
 					>
 					{Object.keys(dataSchedule).map((day) => (
 						<Cards
-						dataCy={`card-day-${day}`}
-						handleClick={() => navigate(`/schedule/${dataSchedule[day][0].id}`)}
-						key={day}
-						>
-						<Text data-cy={`card-title-${day}`} textStyle="h3">
-							{day.charAt(0).toUpperCase() + day.slice(1)}
-						</Text>
-						<Box
-							display="inline-flex"
-							justifyContent="space-between"
-							alignItems="center"
-							bg="white"
-						>
-							{dataSchedule[day].length > 0 ? (
-							dataSchedule[day].map((data) => (
-								<Text
-								data-cy={`card-desc-${data.title}`}
-								key={data.id}
-								as="span"
-								fontSize="14px"
-								fontWeight="medium"
-								color="#888888"
-								cursor="text"
-								>
-								{data.title}
-								</Text>
-							))
-							) : (
-							<Text
-								data-cy={`card-desc-${day}`}
-								as="span"
-								fontSize="14px"
-								fontWeight="medium"
-								color="#888888"
-								cursor="text"
+							data-cy={`card-day-${day}`}
+							handleClick={() => navigate(`/schedule/${day}`)}
+							key={day}
 							>
-								Belum ada mata kuliah
+							<Text data-cy={`card-title-${day}`} textStyle="h3">
+								{dayNames[day]}
 							</Text>
-							)}
-						</Box>
+							<Box
+								display="inline-flex"
+								justifyContent="space-between"
+								alignItems="center"
+								bg="white"
+							>
+								<Text
+									data-cy={`card-desc-${day}`}
+									as="span"
+									fontSize="14px"
+									fontWeight="medium"
+									color={dataSchedule[day] > 0 ? '#D9019C' : '#888888'}
+									cursor="text"
+								>
+									{dataSchedule[day] > 0 ? (
+										`${dataSchedule[day]} mata kuliah`
+									) : (
+										'Belum ada mata kuliah'
+									)}
+								</Text>
+							</Box>
 						</Cards>
 					))}
 					</Grid>
