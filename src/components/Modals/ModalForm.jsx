@@ -2,14 +2,8 @@ import {
 	Box,
 	Button,
 	FormControl,
-	FormErrorMessage,
 	FormLabel,
-	Image,
 	Input,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuList,
 	Modal,
 	ModalBody,
 	ModalCloseButton,
@@ -17,8 +11,6 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
-	Select,
-	Text,
 } from '@chakra-ui/react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';

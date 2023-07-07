@@ -30,8 +30,10 @@ export default function Checkin() {
   }
 
   const handleEmail = (event) => {
-    setEmail(event.target.value);
-    setIsValid(true);
+    const inputEmail = event.target.value;
+    setEmail(inputEmail);
+    setIsTyping(true);
+    setIsValid(isEmailValid(inputEmail));
   }
 
   const isEmailValid = (email) => {
@@ -139,9 +141,9 @@ export default function Checkin() {
                 onChange={handleEmail}
                 onFocus={() => setIsTyping(true)}
               />
-              {!isValid && (
+              {!isValid && isTyping && (
                 <div
-                  data-cy="error-email" style={{ display: "flex", gap: "7px", alignItems: "center" }}
+                  style={{ display: "flex", gap: "7px", alignItems: "center" }}
                 >
                   <img
                     src="/static/icons/ep-warning-filled.svg"
@@ -150,12 +152,12 @@ export default function Checkin() {
                   />
                   <span>
                     <Text
+                      data-cy="error-email"
                       color="red"
                       fontSize="14px"
                       fontStyle="normal"
                       fontWeight="normal"
                       lineHeight="normal"
-                      
                     >
                       Format email tidak sesuai
                     </Text>
