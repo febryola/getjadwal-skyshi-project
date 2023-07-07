@@ -38,7 +38,7 @@ export function ModalDelete({ isOpen, onClose, onAction, content }) {
 					py="43px"
 				>
 					<Button
-						data-cy="modal-delete-cancel-button"
+						data-cy="btn-close"
 						minW="150px"
 						height="54px"
 						bg="#F4F4F4"
@@ -53,7 +53,7 @@ export function ModalDelete({ isOpen, onClose, onAction, content }) {
 						Batal
 					</Button>
 					<Button
-						data-cy="modal-delete-confirm-button"
+						data-cy="btn-submit"
 						minW="150px"
 						height="54px"
 						bg="#ED4C5C"
