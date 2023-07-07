@@ -1,4 +1,4 @@
-import { Box, Checkbox, Image, Text } from '@chakra-ui/react';
+import { Box, Image, Text } from '@chakra-ui/react';
 import React from 'react';
 
 export default function TodoItem({
@@ -27,34 +27,35 @@ export default function TodoItem({
 					data-cy="todo-item-title"
 					textStyle="h3"
 					fontWeight="medium"
-					color={!is_active && '#888888'}
-					textDecoration={!is_active ? 'line-through' : 'none'}
 				>
 					{title}
 				</Text>
+				
+			</Box>
+			<Box display="flex" gap="16px" alignItems="center">
 				<Image
-					data-cy="todo-item-edit-button"
-					src="/static/icons/todo-title-edit-button.svg"
-					alt="todo-item-edit-button"
-					width="20px"
-					opacity={0.6}
+						data-cy="todo-item-edit-button"
+						src="/static/icons/todo-title-edit-button.svg"
+						alt="todo-item-edit-button"
+						width="20px"
+						opacity={0.6}
+						cursor="pointer"
+						onClick={handleEdit}
+					/>
+				<Image
+					data-cy="todo-item-delete-button"
+					src="/static/icons/delete.svg"
+					alt="todo-item-delete-button"
 					cursor="pointer"
-					onClick={handleEdit}
+					onClick={() =>
+						handleDelete({
+							id: idTodo,
+							title,
+							day,
+						})
+					}
 				/>
 			</Box>
-			<Image
-				data-cy="todo-item-delete-button"
-				src="/static/icons/delete.svg"
-				alt="todo-item-delete-button"
-				cursor="pointer"
-				onClick={() =>
-					handleDelete({
-						id: idTodo,
-						title,
-						day,
-					})
-				}
-			/>
 		</Box>
 	);
 }

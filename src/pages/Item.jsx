@@ -8,25 +8,21 @@ import {
 	useDisclosure,
 	Box,
 	Button,
-	IconButton,
 	Image,
-	Input,
 
 } from '@chakra-ui/react';
-import { IconPlus, IconSort } from '../components/Icons/Icons';
+import { IconPlus } from '../components/Icons/Icons';
 import { ModalDelete, ModalForm } from '../components/Modals/Modals';
 import TodoItem from '../components/TodoItem';
 import React ,{useEffect} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getDetail, update as updateschedule } from '../server api/schedule';
+import { getDetail } from '../server api/schedule';
 import { destroy, store, update } from '../server api/schedule';
 export default function Item() {
 	let params = useParams();
 	let { day } = params;
-	console.log(day);
 	const [todos, setTodos] = React.useState([]);
 	const [loading, setLoading] = React.useState(true);
-	const [schedule, setSchedule] = React.useState({});
 	const [todoSelected, setTodoSelected] = React.useState({});
 	const {
 		isOpen: isOpenAlert,
@@ -48,7 +44,6 @@ export default function Item() {
 	useEffect(() => {
 	const storedEmail = localStorage.getItem('email');
 	getDetailSchedule(storedEmail); 
-	handleActionModalForm(storedEmail);
 	}, []);
 
 	const dayNames = {
@@ -59,15 +54,6 @@ export default function Item() {
 		friday: 'Jumat',
 		};
 
-	const handleUpdateschedule = async () => {
-		try {
-			await updateschedule(day, schedule.data[0].day);
-			setChangeTitle(false);
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
 	const handleClickDelete = (data) => {
 		setTodoSelected(data);
 		onOpenModalDelete();
@@ -76,14 +62,24 @@ export default function Item() {
 	const handleDelete = async () => {
 		onCloseModalDelete();
 		try {
-			await destroy(todoSelected.id);
+			const storedEmail = localStorage.getItem('email');
+			await destroy(storedEmail,todoSelected.id);
 			await getDetailSchedule();
-			onOpenAlert();
+			localStorage.setItem('alertStatus', 'open');
+			window.location.reload();
 		} catch (error) {
 			console.log(error);
 		}
 	};
-
+	useEffect(() => {
+  // Mengecek status notifikasi yang disimpan di localStorage
+  const alertStatus = localStorage.getItem('alertStatus');
+  if (alertStatus === 'open') {
+    onOpenAlert();
+    // Menghapus status notifikasi dari localStorage setelah ditampilkan
+    localStorage.removeItem('alertStatus');
+  }
+}, []);
 	const handleModalForm = (data) => {
 		setTodoSelected(data);
 		onOpenModalForm();
@@ -93,39 +89,35 @@ export default function Item() {
 	onCloseModalForm();
 	try {
 		const storedEmail = localStorage.getItem('email');
-		if (!storedEmail) {
-		// Handle jika email tidak ada
-		return;
-		}
 
 		if (todoSelected.id) {
-		await update(todoSelected.id, dataForm);
+			await update(storedEmail,todoSelected.id, dataForm.title);
 		} else {
-		await store({
-			storedEmail, // Menambahkan email dari local storage
+		await store(
+			storedEmail,
 			day,
-		});
+			dataForm.title,
+		);
 		}
-
 		await getDetailSchedule();
+		window.location.reload();
 	} catch (error) {
 		console.log(error);
 	}
 	};
 
-
 	const getDetailSchedule = React.useCallback(async (email) => {
-		try {
-			const { data } = await getDetail(email, day);
-			const { todos, ...schedule } = data;
-			setSchedule({ ...schedule });
-			setTodos( ...todos); 
-			setLoading(false);
-		} catch (error) {
-			setLoading(false);
-			console.log(error);
-		}
-		}, [day]);
+	try {
+		const { data } = await getDetail(email, day);
+		const { data: todos, ...schedule } = data; 
+		console.log("yola", todos);
+		setTodos(todos); 
+		setLoading(false);
+	} catch (error) {
+		setLoading(false);
+		console.log(error);
+	}
+	}, [day]);
 
 	React.useEffect(() => {
 		getDetailSchedule();
@@ -187,7 +179,6 @@ export default function Item() {
 							<TodoItem
 								dataCy={`todo-item-${i}`}
 								key={data.id}
-								handleCheck={handleCheck}
 								{...data}
 								handleDelete={handleClickDelete}
 								handleEdit={() => handleModalForm(data)}
@@ -212,7 +203,7 @@ export default function Item() {
 				isOpen={isOpenModalDelete}
 				onClose={onCloseModalDelete}
 				onAction={handleDelete}
-				content={`Apakah anda yakin menghapus List Item<br />
+				content={`Apakah anda yakin menghapus Mata Kuliah<br />
 				<strong>“${todoSelected?.title}”?</strong>`}
 			/>
 			<ModalForm
@@ -247,7 +238,7 @@ export default function Item() {
 							fontWeight="medium"
 							color="#111111"
 						>
-							Schedule berhasil dihapus
+							Mata kuliah berhasil dihapus
 						</Text>
 					</ModalBody>
 				</ModalContent>

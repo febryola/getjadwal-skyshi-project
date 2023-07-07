@@ -53,7 +53,7 @@ export default function Checkin() {
       };
       await store(payload);
       localStorage.setItem("email", email);
-      window.location.href = `/dashboard?email=${encodeURIComponent(email)}`; 
+      window.location.href = `/dashboard`; 
     } catch (error) {
       console.log(error);
     }

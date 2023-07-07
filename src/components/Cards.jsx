@@ -1,12 +1,11 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 
-export default function Cards({ children, dataCy, handleclick = () => {} }) {
+export default function Cards({ children, dataCy, handleclick = () => {}, padding, marginBottom, height, maxHeight}) {
 	return (
 		<Box
 			data-cy={dataCy}
 			maxW="235px"
-			height="150px"
 			display="flex"
 			flexDirection="column"
 			justifyContent="space-between"
@@ -17,6 +16,7 @@ export default function Cards({ children, dataCy, handleclick = () => {} }) {
 			borderRadius="12px"
 			cursor="pointer"
 			onClick={handleclick}
+			style={{padding, marginBottom, height, maxHeight}}
 		>
 			{children}
 		</Box>

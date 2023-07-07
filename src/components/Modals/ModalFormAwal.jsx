@@ -2,7 +2,6 @@ import {
 	Box,
 	Button,
 	FormControl,
-	FormErrorMessage,
 	FormLabel,
 	Image,
 	Input,
@@ -17,26 +16,24 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
-	Select,
 	Text,
 } from '@chakra-ui/react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { priorityList as dataPriority } from '../../data/data-day';
+import { dayList as dataDay } from '../../data/data-day';
 import { IconArrowDown } from '../Icons/Icons';
 
-export function ModalForm({ isOpen, onClose, onAction, data, type }) {
+export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 	const {
 		handleSubmit,
 		register,
 		reset,
-		setValue,
 		formState: { dirtyFields },
 		control,
 	} = useForm({
 		defaultValues: {
 			title: '',
-			priority: '',
+			day: '',
 		},
 	});
 
@@ -44,15 +41,6 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 		onAction({ ...values });
 		reset();
 	}
-
-	React.useEffect(() => {
-		if (data.id) {
-			setValue('title', data.title);
-			setValue('priority', data.priority);
-		} else {
-			reset();
-		}
-	}, [data]);
 
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -70,7 +58,7 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 						borderBottom={`1px solid #E5E5E5`}
 						p={`30px 24px 19px`}
 					>
-						{type === 'edit' ? 'Edit Item' : 'Tambah List Item'}
+						Tambah Mata Kuliah
 					</ModalHeader>
 					<ModalCloseButton
 						data-cy="modal-add-close-button"
@@ -86,12 +74,12 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 								fontSize={'12px'}
 								fontWeight={'semibold'}
 							>
-								NAMA LIST ITEM
+								Tambah Mata Kuliah
 							</FormLabel>
 							<Input
 								data-cy="modal-add-name-input"
 								id="title"
-								placeholder="Tambahkan nama list item"
+								placeholder="Masukkan Mata Kuliah"
 								{...register('title', {
 									required: true,
 								})}
@@ -110,10 +98,10 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 								fontSize={'12px'}
 								fontWeight={'semibold'}
 							>
-								PRIORITY
+								Day
 							</FormLabel>
 							<Controller
-								name="priority"
+								name="day"
 								control={control}
 								render={({
 									field: { onChange, name, value },
@@ -123,7 +111,7 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 											data-cy="modal-add-priority-dropdown"
 											as={Button}
 											rightIcon={<IconArrowDown />}
-											id="priority"
+											id="day"
 											bg="white"
 											width="224px"
 											height="52px"
@@ -139,7 +127,7 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 											}}
 										>
 											{value === '' ? (
-												'Pilih priority'
+												'Pilih hari'
 											) : (
 												<Box
 													display={'inline-flex'}
@@ -153,9 +141,9 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 														height="14px"
 														borderRadius="14px"
 														backgroundColor={
-															dataPriority.find(
-																(priority) =>
-																	priority.key ===
+															dataDay.find(
+																(day) =>
+																	day.key ===
 																	value
 															).color
 														}
@@ -165,9 +153,9 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 														fontWeight={'normal'}
 													>
 														{
-															dataPriority.find(
-																(priority) =>
-																	priority.key ===
+															dataDay.find(
+																(day) =>
+																	day.key ===
 																	value
 															).label
 														}
@@ -176,7 +164,7 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 											)}
 										</MenuButton>
 										<MenuList>
-											{dataPriority.map((priority, i) => (
+											{dataDay.map((day, i) => (
 												<MenuItem
 													data-cy="modal-add-priority-item"
 													key={i}
@@ -186,10 +174,8 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 													px="17px"
 													py="14px"
 													onClick={(_) => {
-														onChange(priority.key);
+														onChange(day.key);
 													}}
-													name={name}
-													value={value}
 												>
 													<Box
 														display="flex"
@@ -203,7 +189,7 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 															height="14px"
 															borderRadius="14px"
 															backgroundColor={
-																priority.color
+																day.color
 															}
 														></Text>
 														<Text
@@ -212,10 +198,10 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 																'normal'
 															}
 														>
-															{priority.label}
+															{day.label}
 														</Text>
 													</Box>
-													{priority.key === value && (
+													{day.key === value && (
 														<Image src="/static/icons/checked.svg" />
 													)}
 												</MenuItem>

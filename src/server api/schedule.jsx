@@ -12,11 +12,9 @@ export async function store(email, day, title) {
 }
 
 export async function update(email, id, title) {
-    return await axios.patch(` / schedule ? email = $ { email } & id = $ { id }
-            `, { title });
+    return await axios.patch(`/schedule?email=${email}&id=${ id }`, { title });
 }
 
 export async function destroy(email, id) {
-    return await axios.delete(` / schedule ? email = $ { email } & id = $ { id }
-            `);
+    return await axios.delete(`/schedule?email=${email}&id=${id}`);
 }
