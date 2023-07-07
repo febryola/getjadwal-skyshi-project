@@ -11,7 +11,6 @@ export default function TodoItem({
 }) {
 	return (
 		<Box
-			data-cy="card-item-title"
 			height="80px"
 			bg="#FFFFFF"
 			boxShadow={`0px 6px 10px rgba(0, 0, 0, .1)`}

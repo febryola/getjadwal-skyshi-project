@@ -51,7 +51,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 				minH="403px"
 				borderRadius="12px"
 			>
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<form data-cy="form-add" onSubmit={handleSubmit(onSubmit)}>
 					<ModalHeader
 						data-cy="modal-add-title"
 						textStyle="h3"
@@ -66,10 +66,9 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 						right="25px"
 					/>
 
-					<ModalBody p={`38px 30px 23px`}>
+					<ModalBody data-cy="detail-form" p={`38px 30px 23px`}>
 						<FormControl mb={26}>
 							<FormLabel
-								data-cy="modal-add-name-title"
 								htmlFor="title"
 								fontSize={'12px'}
 								fontWeight={'semibold'}
@@ -93,7 +92,6 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 						</FormControl>
 						<FormControl width={'205px'}>
 							<FormLabel
-								data-cy="form-day"
 								htmlFor="priority"
 								fontSize={'12px'}
 								fontWeight={'semibold'}
@@ -101,6 +99,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 								Pilih Hari
 							</FormLabel>
 							<Controller
+							    data-cy="form-day"
 								name="day"
 								control={control}
 								render={({
@@ -108,7 +107,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 								}) => (
 									<Menu>
 										<MenuButton
-											data-cy="modal-add-priority-dropdown"
+											data-cy="form-day"
 											as={Button}
 											rightIcon={<IconArrowDown />}
 											id="day"
@@ -166,7 +165,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 										<MenuList>
 											{dataDay.map((day, i) => (
 												<MenuItem
-													data-cy="modal-add-priority-item"
+													data-cy="form-day"
 													key={i}
 													display="flex"
 													justifyContent="space-between"
