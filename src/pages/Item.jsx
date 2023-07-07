@@ -151,7 +151,7 @@ export default function Item() {
 				<Box display="flex" gap="18px">
 					
 					<Button
-						data-cy="todo-add-button"
+						data-cy="btn-create-schedule"
 						minW="150px"
 						height="54px"
 						bg={'#D9019C'}
@@ -164,7 +164,7 @@ export default function Item() {
 						leftIcon={<IconPlus />}
 						onClick={() => handleModalForm({})}
 					>
-						Tambah
+						Tambah Mata Kuliah
 					</Button>
 				</Box>
 			</Box>

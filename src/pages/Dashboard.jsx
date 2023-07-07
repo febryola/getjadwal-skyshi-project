@@ -111,13 +111,13 @@ export default function Dashboard() {
         >
           {Object.keys(dataSchedule).map((day) => (
             <div key={day}>
-              <Cards height="150px" marginBottom="20px" data-cy={`card-day-${day}`} handleclick={() => navigate(`/schedule/${day}`)}>
-                <Text data-cy={`card-title-${day}`} textStyle="h3">
+              <Cards height="150px" marginBottom="20px" dataCy='card-day' handleclick={() => navigate(`/schedule/${day}`)}>
+                <Text data-cy={`card-title-${dayNames[day]}`} textStyle="h3">
                   {dayNames[day]}
                 </Text>
                 <Box display="inline-flex" justifyContent="space-between" alignItems="center" bg="white">
                   <Text
-                    data-cy={`card-desc-${day}`}
+                    data-cy={`card-desc-${dayNames[day]}`}
                     as="span"
                     fontSize="14px"
                     fontWeight="medium"
@@ -129,7 +129,7 @@ export default function Dashboard() {
                 </Box>
               </Cards>
                 {detailData[day] && detailData[day].length > 0 && (
-					<Cards padding="8px" maxHeight="900px">
+					<Cards dataCy='card-day' padding="8px" maxHeight="900px">
 						{detailData[day].map((item) => (
 						<div key={item.id} style={{ backgroundColor: '#F8F8F8', borderRadius: '8px', padding: '10px', margin: '4px' }}>
 							<Text>

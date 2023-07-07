@@ -46,7 +46,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 		<Modal isOpen={isOpen} onClose={onClose} isCentered>
 			<ModalOverlay />
 			<ModalContent
-				data-cy="modal-add"
+				data-cy="form-add"
 				minW="830px"
 				minH="403px"
 				borderRadius="12px"
@@ -58,10 +58,10 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 						borderBottom={`1px solid #E5E5E5`}
 						p={`30px 24px 19px`}
 					>
-						Tambah Mata Kuliah
+						Buat Mata Kuliah
 					</ModalHeader>
 					<ModalCloseButton
-						data-cy="modal-add-close-button"
+						data-cy="close-modal"
 						top="25px"
 						right="25px"
 					/>
@@ -77,7 +77,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 								Mata Kuliah
 							</FormLabel>
 							<Input
-								data-cy="modal-add-name-input"
+								data-cy="form-matkul"
 								id="title"
 								placeholder="Masukkan Mata Kuliah"
 								{...register('title', {
@@ -93,7 +93,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 						</FormControl>
 						<FormControl width={'205px'}>
 							<FormLabel
-								data-cy="modal-add-priority-title"
+								data-cy="form-day"
 								htmlFor="priority"
 								fontSize={'12px'}
 								fontWeight={'semibold'}
@@ -218,7 +218,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 						p={`15px 24px 19px`}
 					>
 						<Button
-							data-cy="modal-add-save-button"
+							data-cy="btn-submit"
 							minW="150px"
 							height="54px"
 							bg={'prime.900'}

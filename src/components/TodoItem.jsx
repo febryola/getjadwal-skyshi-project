@@ -11,7 +11,7 @@ export default function TodoItem({
 }) {
 	return (
 		<Box
-			data-cy={dataCy}
+			data-cy="card-item-title"
 			height="80px"
 			bg="#FFFFFF"
 			boxShadow={`0px 6px 10px rgba(0, 0, 0, .1)`}
@@ -24,7 +24,7 @@ export default function TodoItem({
 		>
 			<Box display="flex" gap="16px" alignItems="center">
 				<Text
-					data-cy="todo-item-title"
+					data-cy="card-item-title"
 					textStyle="h3"
 					fontWeight="medium"
 				>
@@ -34,7 +34,7 @@ export default function TodoItem({
 			</Box>
 			<Box display="flex" gap="16px" alignItems="center">
 				<Image
-						data-cy="todo-item-edit-button"
+						data-cy="card-item-edit"
 						src="/static/icons/todo-title-edit-button.svg"
 						alt="todo-item-edit-button"
 						width="20px"
@@ -43,7 +43,7 @@ export default function TodoItem({
 						onClick={handleEdit}
 					/>
 				<Image
-					data-cy="todo-item-delete-button"
+					data-cy="card-item-delete"
 					src="/static/icons/delete.svg"
 					alt="todo-item-delete-button"
 					cursor="pointer"

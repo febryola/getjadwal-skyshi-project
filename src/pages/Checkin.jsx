@@ -141,7 +141,7 @@ export default function Checkin() {
               />
               {!isValid && (
                 <div
-                  style={{ display: "flex", gap: "7px", alignItems: "center" }}
+                  data-cy="error-email" style={{ display: "flex", gap: "7px", alignItems: "center" }}
                 >
                   <img
                     src="/static/icons/ep-warning-filled.svg"
@@ -155,7 +155,7 @@ export default function Checkin() {
                       fontStyle="normal"
                       fontWeight="normal"
                       lineHeight="normal"
-                      data-cy="error-email"
+                      
                     >
                       Format email tidak sesuai
                     </Text>
