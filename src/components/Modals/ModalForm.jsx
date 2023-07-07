@@ -46,7 +46,7 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 		<Modal isOpen={isOpen} onClose={onClose} isCentered>
 			<ModalOverlay />
 			<ModalContent
-				data-cy="modal-add"
+				data-cy="detail-form"
 				minW="830px"
 				minH="303px"
 				borderRadius="12px"
