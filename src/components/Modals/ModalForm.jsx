@@ -46,19 +46,19 @@ export function ModalForm({ isOpen, onClose, onAction, data, type }) {
 		<Modal isOpen={isOpen} onClose={onClose} isCentered>
 			<ModalOverlay />
 			<ModalContent
-				data-cy="detail-form"
+				data-cy="form-add"
 				minW="830px"
 				minH="303px"
 				borderRadius="12px"
 			>
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<form data-cy={type === 'edit' ? 'detail-form' : 'form-add'} onSubmit={handleSubmit(onSubmit)}>
 					<ModalHeader
-						data-cy="modal-add-title"
+						data-cy={type === 'edit' ? 'detail-form' : 'form-add'}
 						textStyle="h3"
 						borderBottom={`1px solid #E5E5E5`}
 						p={`30px 24px 19px`}
 					>
-						{type === 'edit' ? 'Edit Item' : 'Tambah Mata Kuliah'}
+						{type === 'edit' ? 'Edit Mata Kuliah' : 'Tambah Mata Kuliah'}
 					</ModalHeader>
 					<ModalCloseButton
 						data-cy="close-modal"

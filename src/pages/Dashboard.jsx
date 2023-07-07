@@ -123,9 +123,9 @@ export default function Dashboard() {
                     color={dataSchedule[day] > 0 ? '#D9019C' : '#888888'}
                     cursor="text"
                   >
-                    <span>
+                    <p>
                       {dataSchedule[day] > 0 ? `${dataSchedule[day]} Mata Kuliah` : 'Belum ada mata kuliah'}
-                    </span>
+                    </p>
                   </Text>
                 </Box>
               </Cards>
