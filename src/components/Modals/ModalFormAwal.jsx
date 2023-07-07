@@ -74,7 +74,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 								fontSize={'12px'}
 								fontWeight={'semibold'}
 							>
-								Tambah Mata Kuliah
+								Mata Kuliah
 							</FormLabel>
 							<Input
 								data-cy="modal-add-name-input"
@@ -98,7 +98,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 								fontSize={'12px'}
 								fontWeight={'semibold'}
 							>
-								Day
+								Pilih Hari
 							</FormLabel>
 							<Controller
 								name="day"
