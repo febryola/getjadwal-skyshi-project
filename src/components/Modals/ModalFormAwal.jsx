@@ -58,7 +58,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 						borderBottom={`1px solid #E5E5E5`}
 						p={`30px 24px 19px`}
 					>
-						Buat Mata Kuliah
+						Buat Jadwal Kuliah
 					</ModalHeader>
 					<ModalCloseButton
 						data-cy="close-modal"
@@ -228,10 +228,7 @@ export function ModalFormAwal({ isOpen, onClose, onAction, type }) {
 							fontWeight="semibold"
 							px="22px"
 							py="13.5px"
-							disabled={
-								type === 'add' &&
-								(!dirtyFields.title || !dirtyFields.day)
-							}
+							disabled={!dirtyFields.title || !dirtyFields.day}
 							type="submit"
 						>
 							Simpan

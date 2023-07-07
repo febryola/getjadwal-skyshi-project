@@ -161,10 +161,10 @@ export default function Item() {
 						fontWeight="semibold"
 						px="22px"
 						py="13.5px"
-						leftIcon={<IconPlus />}
+						// leftIcon={<IconPlus />}
 						onClick={() => handleModalForm({})}
 					>
-						Tambah Mata Kuliah
+						+ Tambah Mata Kuliah
 					</Button>
 				</Box>
 			</Box>

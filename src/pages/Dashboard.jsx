@@ -118,13 +118,14 @@ export default function Dashboard() {
                 <Box display="inline-flex" justifyContent="space-between" alignItems="center" bg="white">
                   <Text
                     data-cy={`card-desc-${dayNames[day]}`}
-                    as="span"
                     fontSize="14px"
                     fontWeight="medium"
                     color={dataSchedule[day] > 0 ? '#D9019C' : '#888888'}
                     cursor="text"
                   >
-                    {dataSchedule[day] > 0 ? `${dataSchedule[day]} mata kuliah` : 'Belum ada mata kuliah'}
+                    <span>
+                      {dataSchedule[day] > 0 ? `${dataSchedule[day]} Mata Kuliah` : 'Belum ada mata kuliah'}
+                    </span>
                   </Text>
                 </Box>
               </Cards>
